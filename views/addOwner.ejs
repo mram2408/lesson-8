@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script defer src="/javascripts/RequestManager.js"></script>
+    <style></style>
+  </head>
+  <body>
+    <!-- Шапка -->
+    <header>
+      <h1><%= title %></h1>
+      <nav>
+        <a href="/">Головна</a>
+        <a href="/about">Про нас</a>
+        <a href="/autopark"><strong>До автопарку</strong></a>
+      </nav>
+    </header>
+    <main>
+      <h2>Додати нового власника</h2>
+      <% if(errors?.length > 0) { %>
+      <ul>
+        <% errors.forEach(function (error) { %>
+        <li><%= error.msg %></li>
+        <% }) %>
+      </ul>
+      <% } %>
+
+      <form
+        action="<%= ownerData.id ? `/autopark/owners/edit/${ownerData.id}` : '/autopark/owners/add'  %>"
+        method="POST"
+      >
+        <label
+          >ПІБ:
+          <input type="text" name="name" value="<%= ownerData.name %>" />
+        </label>
+        <label
+          >Адреса:
+          <input type="text" name="address" value="<%= ownerData.address %>" />
+        </label>
+        <button type="submit">
+          <%= ownerData.id ? "Змінити" : "Додати" %>
+        </button>
+      </form>
+    </main>
+
+    <!-- Футер -->
+    <footer>
+      <p>&copy; 2024 Автопарк "АвтоЛюкс". Всі права захищені.</p>
+    </footer>
+  </body>
+</html>

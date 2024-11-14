@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script defer src="/javascripts/RequestManager.js"></script>
+    <script>
+      function onDeleteCar(id) {
+        console.log(id);
+
+        RequestManager.deleteRequest("/autopark/deleteCar", { id: id });
+      }
+    </script>
+    <style>
+      .info {
+        background-color: rgb(0, 145, 255);
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Шапка -->
+    <header>
+      <h1><%= title %></h1>
+      <nav>
+        <a href="/">Головна</a>
+        <a href="/about">Про нас</a>
+        <a href="/autopark"><strong>До автопарку</strong></a>
+      </nav>
+    </header>
+    <!-- Основний контент з картками -->
+    <main>
+      <h2>Доступні автомобілі</h2>
+      <a href="/autopark/add">
+        <button>⊕ Додати новий автомобіль</button>
+      </a>
+      <a href="/autopark/owners/add">
+        <button>⊕ Додати нового власника</button>
+      </a>
+      <a href="/autopark/owners">
+        <button class="info">🛈 Власники</button>
+      </a>
+      <div class="car-cards">
+        <% carsList.forEach(car => { %>
+        <div class="car-card">
+          <img src="<%= car.imgSrc %>" />
+          <h3><%= car.make %> <%= car.model %></h3>
+          <div class="car-year">Рік випуску: <%= car.year %></div>
+          <div class="number-plate">
+            <img src="images/image.png" />
+            <div><%= car.numberPlate %></div>
+          </div>
+          <div><%= car.owner?.name || 'Немає власника' %></div>
+          <div><%= car.owner?.address %></div>
+          <div class="car-card-buttons">
+            <a href="/autopark/edit/<%= car.id %>"
+              ><button>✎ Редагувати</button></a
+            >
+            <button onclick="onDeleteCar('<%= car.id %>')" class="danger">
+              🗑 Видалити
+            </button>
+          </div>
+        </div>
+        <% }) %>
+      </div>
+    </main>
+
+    <!-- Футер -->
+    <footer>
+      <p>&copy; 2024 Автопарк "АвтоЛюкс". Всі права захищені.</p>
+    </footer>
+  </body>
+</html>

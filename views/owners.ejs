@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
+    <script defer src="/javascripts/RequestManager.js"></script>
+    <script>
+      function onDeleteOwner(id) {
+        console.log(id);
+
+        RequestManager.deleteRequest("/autopark/owners/delete", { id: id });
+      }
+    </script>
+    <style>
+      .table {
+        border: 1px solid black;
+      }
+      .table-row {
+        display: grid;
+        align-items: center;
+        gap: 10px;
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+        padding: 10px;
+        border-bottom: 1px solid black;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Шапка -->
+    <header>
+      <h1><%= title %></h1>
+      <nav>
+        <a href="/">Головна</a>
+        <a href="/about">Про нас</a>
+        <a href="/autopark"><strong>До автопарку</strong></a>
+      </nav>
+    </header>
+    <!-- Основний контент з картками -->
+    <main>
+      <h2>Власники</h2>
+      <a href="/autopark/owners/add"><button>⊕ Додати власника</button></a>
+      <div class="table" style="margin-top: 10px">
+        <% ownersList.forEach(owner => { %>
+        <div class="table-row">
+          <div><%= owner.name %></div>
+          <div><%= owner.address %></div>
+          <a href="/autopark/owners/edit/<%= owner.id %>"
+            ><button>✎ Змінити</button></a
+          >
+          <button onclick="onDeleteOwner('<%= owner.id %>')" class="danger">
+            🗑 Видалити
+          </button>
+        </div>
+        <% }) %>
+      </div>
+    </main>
+
+    <!-- Футер -->
+    <footer>
+      <p>&copy; 2024 Автопарк "АвтоЛюкс". Всі права захищені.</p>
+    </footer>
+  </body>
+</html>
